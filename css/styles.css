@@ -1,0 +1,50 @@
+html,
+body {
+  font-family: Arial, sans-serif;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  height: 100%;
+  position: relative;
+}
+
+input {
+  font-size: 12px;
+}
+
+h1 {
+  color: #525454;
+  font-size: 26px;
+  text-align: center;
+  margin: 0;
+  padding: 10px 0 10px;
+}
+
+hr {
+  background: #D0D7D9;
+  height: 1px;
+  margin: 20px 0 20px 0;
+  border: none;
+}
+header {
+  height: 10%;
+}
+#map {
+  bottom:0px;
+  height: 90%;
+  position: absolute;
+  width: 80%;
+}
+.place-listings {
+  width: 20%;
+  float: right;
+}
+.place-listings #form {
+  padding-left: 20px;
+}
+#filter-text {
+  width: 90%;
+}

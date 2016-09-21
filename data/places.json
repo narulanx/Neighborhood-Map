@@ -1,0 +1,163 @@
+[{
+		"category": "Tourist Attraction",
+		"categoryId": 1,
+		"title": "Navy Pier",
+		"location": {
+			"lat": 41.8916201,
+			"lng": -87.60729099999999
+		}
+	}, {
+		"category": "Tourist Attraction",
+		"categoryId": 1,
+		"title": "John Hancock Center",
+		"location": {
+			"lat": 41.8988084,
+			"lng": -87.62307919999999
+		}
+	}, {
+		"category": "Tourist Attraction",
+		"categoryId": 1,
+		"title": "Museum of Science and Industry",
+		"location": {
+			"lat": 41.7906088,
+			"lng": -87.5830586
+		}
+	}, {
+		"category": "Tourist Attraction",
+		"categoryId": 1,
+		"title": "Millennium Park",
+		"location": {
+			"lat": 41.883372,
+			"lng": -87.62184209999999
+		}
+	}, {
+		"category": "Tourist Attraction",
+		"categoryId": 1,
+		"title": "Willis Tower Skydeck",
+		"location": {
+			"lat": 41.8788864,
+			"lng": -87.63588249999999
+		}
+	}, {
+		"category": "Tourist Attraction",
+		"categoryId": 1,
+		"title": "Lincoln Park Zoo",
+		"location": {
+			"lat": 41.9187897,
+			"lng": -87.635465
+		}
+	}, {
+		"category": "Restaurant",
+		"categoryId": 2,
+		"title": "Grace",
+		"location": {
+			"lat": 41.8847821,
+			"lng": -87.64493379999999
+		}
+	}, {
+		"category": "Restaurant",
+		"categoryId": 2,
+		"title": "Wildfire Chicago",
+		"location": {
+			"lat": 41.893786,
+			"lng": -87.6334978
+		}
+	}, {
+		"category": "Restaurant",
+		"categoryId": 2,
+		"title": "Boka",
+		"location": {
+			"lat": 41.9136269,
+			"lng": -87.64804579999999
+		}
+	}, {
+		"category": "Restaurant",
+		"categoryId": 2,
+		"title": "Subway",
+		"location": {
+			"lat": 41.9317013,
+			"lng": -87.70777029999999
+		}
+	}, {
+		"category": "Restaurant",
+		"categoryId": 2,
+		"title": "The Rosebud",
+		"location": {
+			"lat": 41.8694853,
+			"lng": -87.66427370000001
+		}
+	}, {
+		"category": "Cafe",
+		"categoryId": 3,
+		"title": "Lula Cafe",
+		"location": {
+			"lat": 41.927692,
+			"lng": -87.70684829999999
+		}
+	}, {
+		"category": "Cafe",
+		"categoryId": 3,
+		"title": "Hard Rock Cafe",
+		"location": {
+			"lat": 41.893001,
+			"lng": -87.63049079999999
+		}
+	}, {
+		"category": "Cafe",
+		"categoryId": 3,
+		"title": "Cafe Jumping Bean",
+		"location": {
+			"lat": 41.8576567,
+			"lng": -87.66275279999999
+		}
+	}, {
+		"category": "Cafe",
+		"categoryId": 3,
+		"title": "Tropical Smoothie Café",
+		"location": {
+			"lat": 41.87254970000001,
+			"lng": -87.64637809999999
+		}
+	}, {
+		"category": "Cafe",
+		"categoryId": 3,
+		"title": "Geja's Cafe",
+		"location": {
+			"lat": 41.9185552,
+			"lng": -87.638047
+		}
+	}, {
+		"category": "Subway Station",
+		"categoryId": 4,
+		"title": "Racine",
+		"location": {
+			"lat": 41.8758068,
+			"lng": -87.6570153
+		}
+	}, {
+		"category": "Subway Station",
+		"categoryId": 4,
+		"title": "Cicero",
+		"location": {
+			"lat": 41.8716179,
+			"lng": -87.74516899999999
+		}
+	}, {
+		"category": "Subway Station",
+		"categoryId": 4,
+		"title": "Damen (Pink)",
+		"location": {
+			"lat": 41.854517,
+			"lng": -87.67597499999999
+		}
+	}, {
+		"category": "Subway Station",
+		"categoryId": 4,
+		"title": "Clinton",
+		"location": {
+			"lat": 41.8857266,
+			"lng": -87.6419124
+		}
+	}
+
+]
