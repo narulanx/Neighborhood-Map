@@ -16,7 +16,7 @@
             <div id="form">
               <h3>List of Places</h3>
               <input id="filter-text" type="text" placeholder="Enter a place to filter!" data-bind="value: filter, valueUpdate: 'afterkeydown'">
-              <ul data-bind="foreach: filteredPlaces">
+              <ul data-bind="foreach: filteredPlaces" class="place-list">
                 <li><span data-bind="text: title"></span></li>
               </ul>
             </div>

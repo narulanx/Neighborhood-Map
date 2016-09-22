@@ -48,3 +48,6 @@ header {
 #filter-text {
   width: 90%;
 }
+.place-list li {
+  list-style: none;
+}
