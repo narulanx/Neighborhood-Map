@@ -11,16 +11,18 @@
           <header>
               <h1>Chicago</h1>
           </header>
-          <div id="map"></div>
-          <aside class="place-listings">
-            <div id="form">
-              <h3>List of Places</h3>
-              <input id="filter-text" type="text" placeholder="Enter a place to filter!" data-bind="value: filter, valueUpdate: 'afterkeydown'">
-              <ul data-bind="foreach: filteredPlaces" class="place-list">
-                <li><span data-bind="text: title"></span></li>
-              </ul>
-            </div>
-          </aside>
+          <div id="content">
+            <div id="map"></div>
+            <aside class="place-listings">
+              <div id="form">
+                <h3>List of Places</h3>
+                <input id="filter-text" type="text" placeholder="Enter a place to filter!" data-bind="value: filter, valueUpdate: 'afterkeydown'">
+                <ul data-bind="foreach: filteredPlaces" class="place-list">
+                  <li><span class="place-name" data-bind="text: title, click: $parent.toggleBounce"></span></li>
+                </ul>
+              </div>
+            </aside>
+          </div>
         </div>
         <script src="js/lib/knockout-3.2.0.js"></script>
         <script src="http://knockoutjs.com/downloads/knockout-2.2.1.debug.js"></script>
