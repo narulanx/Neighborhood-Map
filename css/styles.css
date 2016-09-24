@@ -9,6 +9,8 @@ body {
 .container {
   height: 100%;
   position: relative;
+  width: 100%;
+  padding: 0;
 }
 
 input {
@@ -65,7 +67,13 @@ ul.place-list li img {
 .place-name {
   cursor: pointer;
 }
-#pano {
-  width: 200px;
-  height: 200px;
+.modal-body {
+  height: 500px;
+}
+#info-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+#services {
+  padding: 70px 0 0 20px;
 }

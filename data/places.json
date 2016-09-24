@@ -1,6 +1,6 @@
 [{
 		"category": "Tourist Attraction",
-		"categoryId": 1,
+		"placeId": "ChIJ2-_fU0orDogRwlDS7RLqzIE",
 		"title": "Navy Pier",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/museum-71.png",
 		"location": {
@@ -9,7 +9,7 @@
 		}
 	}, {
 		"category": "Tourist Attraction",
-		"categoryId": 1,
+		"placeId": "ChIJNbKQElTTD4gR0JKC0nXHXWg",
 		"title": "John Hancock Center",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
 		"location": {
@@ -18,7 +18,7 @@
 		}
 	}, {
 		"category": "Tourist Attraction",
-		"categoryId": 1,
+		"placeId": "ChIJHd8BYAopDogRBuMXc6oszA8",
 		"title": "Museum of Science and Industry",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/museum-71.png",
 		"location": {
@@ -27,7 +27,7 @@
 		}
 	}, {
 		"category": "Tourist Attraction",
-		"categoryId": 1,
+		"placeId": "ChIJA5xPiqYsDogRBBCptdwsGEQ",
 		"title": "Millennium Park",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_recreational-71.png",
 		"location": {
@@ -36,7 +36,7 @@
 		}
 	}, {
 		"category": "Tourist Attraction",
-		"categoryId": 1,
+		"placeId": "ChIJp2E8Hb8sDogR8WK83agX6c4",
 		"title": "Willis Tower Skydeck",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
 		"location": {
@@ -45,7 +45,7 @@
 		}
 	}, {
 		"category": "Tourist Attraction",
-		"categoryId": 1,
+		"placeId": "ChIJB5o6CWvTD4gR25QC-QbMQAk",
 		"title": "Lincoln Park Zoo",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
 		"location": {
@@ -54,7 +54,7 @@
 		}
 	}, {
 		"category": "Restaurant",
-		"categoryId": 2,
+		"placeId": "ChIJCeS_lsUsDogRqY46FawSWvw",
 		"title": "Grace",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
 		"location": {
@@ -63,7 +63,7 @@
 		}
 	}, {
 		"category": "Restaurant",
-		"categoryId": 2,
+		"placeId": "ChIJbUZRYLMsDogRmaVlU28JtqY",
 		"title": "Wildfire Chicago",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
 		"location": {
@@ -72,7 +72,7 @@
 		}
 	}, {
 		"category": "Restaurant",
-		"categoryId": 2,
+		"placeId": "ChIJg7aSMj3TD4gRlHUmzqlebUI",
 		"title": "Boka",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
 		"location": {
@@ -81,7 +81,7 @@
 		}
 	}, {
 		"category": "Restaurant",
-		"categoryId": 2,
+		"placeId": "ChIJv8ufsnMyDogRqvvOWIijOD0",
 		"title": "Subway",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
 		"location": {
@@ -90,7 +90,7 @@
 		}
 	}, {
 		"category": "Restaurant",
-		"categoryId": 2,
+		"placeId": "ChIJ-yDclxstDogRwpAzpJYGOJw",
 		"title": "The Rosebud",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
 		"location": {
@@ -99,7 +99,7 @@
 		}
 	}, {
 		"category": "Cafe",
-		"categoryId": 3,
+		"placeId": "ChIJ-7r5qHrND4gRgmIpiTEL5Nk",
 		"title": "Lula Cafe",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
 		"location": {
@@ -108,7 +108,7 @@
 		}
 	}, {
 		"category": "Cafe",
-		"categoryId": 3,
+		"placeId": "ChIJyaHT-7IsDogRlR1H3X3yiP4",
 		"title": "Hard Rock Cafe",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
 		"location": {
@@ -117,7 +117,7 @@
 		}
 	}, {
 		"category": "Cafe",
-		"categoryId": 3,
+		"placeId": "ChIJ-8AzygAtDogRTTiV1i8ERW4",
 		"title": "Cafe Jumping Bean",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
 		"location": {
@@ -126,7 +126,7 @@
 		}
 	}, {
 		"category": "Cafe",
-		"categoryId": 3,
+		"placeId": "ChIJ_y698ugsDogRZncDN8_wkD8",
 		"title": "Tropical Smoothie Café",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
 		"location": {
@@ -135,7 +135,7 @@
 		}
 	}, {
 		"category": "Cafe",
-		"categoryId": 3,
+		"placeId": "ChIJ0x_SL2vTD4gRXzX_O-a8P1c",
 		"title": "Geja's Cafe",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
 		"location": {
@@ -144,7 +144,7 @@
 		}
 	}, {
 		"category": "Subway Station",
-		"categoryId": 4,
+		"placeId": "ChIJq8jvih8tDogRdcmnuhTg588",
 		"title": "Racine",
 		"iconUrl": "https://pbs.twimg.com/profile_images/1643701305/train-icon.gif",
 		"location": {
@@ -153,7 +153,7 @@
 		}
 	}, {
 		"category": "Subway Station",
-		"categoryId": 4,
+		"placeId": "ChIJRQlvcyUzDogRpH3Tb3-MFAs",
 		"title": "Cicero",
 		"iconUrl": "https://pbs.twimg.com/profile_images/1643701305/train-icon.gif",
 		"location": {
@@ -162,7 +162,7 @@
 		}
 	}, {
 		"category": "Subway Station",
-		"categoryId": 4,
+		"placeId": "ChIJexYpUKAtDogRekVhWoaqT94",
 		"title": "Damen (Pink)",
 		"iconUrl": "https://pbs.twimg.com/profile_images/1643701305/train-icon.gif",
 		"location": {
@@ -171,7 +171,7 @@
 		}
 	}, {
 		"category": "Subway Station",
-		"categoryId": 4,
+		"placeId": "ChIJp9FBf-osDogRHnwwyucoWSM",
 		"title": "Clinton",
 		"iconUrl": "https://pbs.twimg.com/profile_images/1643701305/train-icon.gif",
 		"location": {

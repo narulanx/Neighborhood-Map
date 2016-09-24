@@ -19,7 +19,9 @@ var viewModel = function() {
   var self = this;
   self.places = ko.observableArray([]);
   self.filter = ko.observable("");
+
   self.infoWindow = new google.maps.InfoWindow();
+
   var bounds = new google.maps.LatLngBounds();
   $.getJSON("data/places.json").done(function(data) {
     for (var i = 0; i < data.length; i++){
@@ -32,11 +34,11 @@ var viewModel = function() {
         position: position,
         title: title,
         animation: google.maps.Animation.DROP,
-        id: i
+        id: data[i].placeId
       });
       bounds.extend(marker.position);
 
-      self.createIconForMarker(marker, iconUrl)
+      self.createIconForMarker(marker, iconUrl);
 
       marker.addListener('click', function(){
         self.toggleBounce({marker: this});
@@ -72,46 +74,57 @@ var viewModel = function() {
     } else {
       marker.setAnimation(google.maps.Animation.BOUNCE);
     }
-    self.populateInfoWindow(marker);
+    self.createModalBinding();
+    self.getPlaceDetails(marker);
   };
 
-  self.populateInfoWindow = function(marker){
-    var infoWindow = this.infoWindow;
-    if(infoWindow.marker != marker) {
-      infoWindow.setContent('');
-      infoWindow.marker = marker;
-
-      infoWindow.addListener('closeclick', function(){
-        infoWindow.marker = null;
-      });
-
-      var streetViewService = new google.maps.StreetViewService();
-      var radius = 50;
-
-      function getStreetView(data, status){
-        if (status == google.maps.StreetViewStatus.OK){
-          var nearStreetViewLocation = data.location.latLng;
-          var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
-          infoWindow.setContent('<div>'+marker.title+'</div><div id="pano"></div>');
-          var panoramaOptions = {
-            position: nearStreetViewLocation,
-            pov: {
-              heading: heading,
-              pitch: 10
-            }
-          };
-          console.log(panoramaOptions);
-          var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
-        } else {
-          infoWindow.setContent("<div>"+marker.title+"</div><div>No Street View Found</div>");
+  self.getPlaceDetails = function (marker){
+    var placeInfoWindow = this.infoWindow;
+    var service = new google.maps.places.PlacesService(map);
+    service.getDetails({
+      placeId: marker.id
+    }, function(place, status){
+      if (status == google.maps.places.PlacesServiceStatus.OK){
+        placeInfoWindow.marker = marker;
+        var innerHTML = "<div id='info-wrapper'><div>";
+        if (place.name) {
+          innerHTML += "<strong>" + place.name + "</strong>";
         }
+        if (place.formatted_address){
+          innerHTML += "<br>" + place.formatted_address;
+        }
+        if (place.formatted_phone_number) {
+          innerHTML += "<br>" + place.formatted_phone_number;
+        }
+        if (place.opening_hours){
+          innerHTML += "<br><br><Strong>Hours: </strong><br>" +
+            place.opening_hours.weekday_text[0] + "<br>" +
+            place.opening_hours.weekday_text[1] + "<br>" +
+            place.opening_hours.weekday_text[2] + "<br>" +
+            place.opening_hours.weekday_text[3] + "<br>" +
+            place.opening_hours.weekday_text[4] + "<br>" +
+            place.opening_hours.weekday_text[5] + "<br>" +
+            place.opening_hours.weekday_text[6];
+        }
+        if (place.photos) {
+          innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
+            {maxWidth: 100, maxHeight: 200}) + '">';
+        }
+        innerHTML += "</div><div id='services'><strong>Services</strong>";
+        innerHTML += "<br><a href='#' id='google-street-view' data-target='#mapModal' data-toggle='modal'" +
+          "data-title='Street View Image' data-markerpos='" + marker.position + "'>Google StreetView</a>";
+        innerHTML += "<br><a href='#' id='google-reviews'>Google Reviews</a>";
+        innerHTML += "<br><a href='#' id='foursquare-reviews'>Foursquare Reviews</a>";
+        innerHTML += "<br><a href='#' id='wiki-info'>Wikipedia Info</a>";
+        innerHTML += "<br><a href='#' id='instagram-images'>Instagram Images</a></div></div>";
+        placeInfoWindow.setContent(innerHTML);
+        placeInfoWindow.open(map, marker);
+        placeInfoWindow.addListener("closeclick", function(){
+          placeInfoWindow.marker = null;
+        });
       }
-
-      streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-
-      infoWindow.open(map, marker);
-    }
-  }
+    });
+  };
 
   self.createIconForMarker = function(marker, iconUrl) {
     icon = {
@@ -122,7 +135,45 @@ var viewModel = function() {
       scaledSize: new google.maps.Size(25,25)
     }
     marker.setIcon(icon);
-  }
+  };
+
+  self.createModalBinding = function() {
+    $('#mapModal').on('show.bs.modal', function (event) {
+      var a = $(event.relatedTarget);
+      var title = a.data('title');
+      var markerpos = a.data('markerpos');
+      var modal = $(this);
+      modal.find('.modal-title').text(title);
+      self.getStreetView(markerpos, modal);
+    });
+  };
+
+  self.getStreetView = function(markerpos, modal) {
+    var latlng = markerpos.substring(1,markerpos.length - 1).split(",");
+    var streetMarker = new google.maps.Marker({
+      position: {lat: parseFloat(latlng[0].trim()), lng: parseFloat(latlng[1].trim())}
+    });
+    var streetViewService = new google.maps.StreetViewService();
+    var radius = 50;
+    function getPanoImage(data, status){
+      console.log(data, status);
+      if (status == google.maps.StreetViewStatus.OK){
+        var nearStreetViewLocation = data.location.latLng;
+        var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, streetMarker.position);
+        var panoramaOptions = {
+          position: nearStreetViewLocation,
+          pov: {
+            heading: heading,
+            pitch: 10
+          }
+        };
+        var panorama = new google.maps.StreetViewPanorama(modal.find('.modal-body')[0], panoramaOptions);
+      } else {
+        modal.find('.modal-title').text("No Street View Found");
+      }
+    }
+    streetViewService.getPanoramaByLocation(streetMarker.position, radius, getPanoImage);
+  };
 }
 
 var initMap = function() {
