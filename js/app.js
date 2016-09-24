@@ -169,7 +169,7 @@ var viewModel = function() {
         };
         var panorama = new google.maps.StreetViewPanorama(modal.find('.modal-body')[0], panoramaOptions);
       } else {
-        modal.find('.modal-title').text("No Street View Found");
+        modal.find('.modal-body').text("No Street View Found");
       }
     }
     streetViewService.getPanoramaByLocation(streetMarker.position, radius, getPanoImage);
