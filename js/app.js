@@ -12,6 +12,7 @@ var utils = {
 var place = function(data) {
   this.marker = data.marker;
   this.title = ko.observable(data.title);
+  this.iconUrl = ko.observable(data.iconUrl);
 }
 
 var viewModel = function() {
@@ -24,6 +25,7 @@ var viewModel = function() {
     for (var i = 0; i < data.length; i++){
       var position = data[i].location;
       var title = data[i].title;
+      var iconUrl = data[i].iconUrl;
 
       var marker = new google.maps.Marker({
         map: map,
@@ -34,13 +36,13 @@ var viewModel = function() {
       });
       bounds.extend(marker.position);
 
-      self.createIconForMarker(marker, data[i].iconUrl)
+      self.createIconForMarker(marker, iconUrl)
 
       marker.addListener('click', function(){
         self.toggleBounce({marker: this});
       });
 
-      self.places.push(new place({marker: marker,title: title}));
+      self.places.push(new place({marker: marker,title: title,iconUrl: iconUrl}));
     }
   });
   map.fitBounds(bounds);

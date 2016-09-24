@@ -18,7 +18,10 @@
                 <h3>List of Places</h3>
                 <input id="filter-text" type="text" placeholder="Enter a place to filter!" data-bind="value: filter, valueUpdate: 'afterkeydown'">
                 <ul data-bind="foreach: filteredPlaces" class="place-list">
-                  <li><span class="place-name" data-bind="text: title, click: $parent.toggleBounce"></span></li>
+                  <li>
+                    <span class="place-name" data-bind="text: title, click: $parent.toggleBounce"></span>
+                    <span><img data-bind="attr: {src: iconUrl}"></span>
+                  </li>
                 </ul>
               </div>
             </aside>
