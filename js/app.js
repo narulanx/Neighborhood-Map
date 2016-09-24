@@ -34,6 +34,8 @@ var viewModel = function() {
       });
       bounds.extend(marker.position);
 
+      self.createIconForMarker(marker, data[i].iconUrl)
+
       marker.addListener('click', function(){
         self.toggleBounce({marker: this});
       });
@@ -108,12 +110,23 @@ var viewModel = function() {
       infoWindow.open(map, marker);
     }
   }
+
+  self.createIconForMarker = function(marker, iconUrl) {
+    icon = {
+      url: iconUrl,
+      size: new google.maps.Size(35,35),
+      origin: new google.maps.Point(0,0),
+      anchor: new google.maps.Point(15,34),
+      scaledSize: new google.maps.Size(25,25)
+    }
+    marker.setIcon(icon);
+  }
 }
 
 var initMap = function() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 41.8847888, lng: -87.7383704},
-    zoom: 12
+    zoom: 13
   });
 
   ko.applyBindings(new viewModel());
