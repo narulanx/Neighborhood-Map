@@ -77,13 +77,37 @@ var viewModel = function() {
       infoWindow.setContent('');
       infoWindow.marker = marker;
 
-      infoWindow.setContent("<div>"+marker.title+"</div>");
       infoWindow.addListener('closeclick', function(){
         infoWindow.marker = null;
       });
+
+      var streetViewService = new google.maps.StreetViewService();
+      var radius = 50;
+
+      function getStreetView(data, status){
+        if (status == google.maps.StreetViewStatus.OK){
+          var nearStreetViewLocation = data.location.latLng;
+          var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
+          infoWindow.setContent('<div>'+marker.title+'</div><div id="pano"></div>');
+          var panoramaOptions = {
+            position: nearStreetViewLocation,
+            pov: {
+              heading: heading,
+              pitch: 10
+            }
+          };
+          console.log(panoramaOptions);
+          var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+        } else {
+          infoWindow.setContent("<div>"+marker.title+"</div><div>No Street View Found</div>");
+        }
+      }
+
+      streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+
       infoWindow.open(map, marker);
     }
-  };
+  }
 }
 
 var initMap = function() {
