@@ -112,8 +112,9 @@ var viewModel = function() {
         }
         innerHTML += "</div><div id='services'><strong>Services</strong>";
         innerHTML += "<br><a href='#' id='google-street-view' data-target='#mapModal' data-toggle='modal'" +
-          "data-title='Street View Image' data-markerpos='" + marker.position + "'>Google StreetView</a>";
-        innerHTML += "<br><a href='#' id='google-reviews'>Google Reviews</a>";
+          " data-title='Street View Image' data-markerpos='" + marker.position + "'>Google StreetView</a>";
+        innerHTML += "<br><a href='#' id='google-reviews' data-target='#mapModal' data-toggle='modal'" +
+          " data-markerid='" + marker.id +"'>Google Reviews</a>";
         innerHTML += "<br><a href='#' id='foursquare-reviews'>Foursquare Reviews</a>";
         innerHTML += "<br><a href='#' id='wiki-info'>Wikipedia Info</a>";
         innerHTML += "<br><a href='#' id='instagram-images'>Instagram Images</a></div></div>";
@@ -142,13 +143,49 @@ var viewModel = function() {
       var a = $(event.relatedTarget);
       var title = a.data('title');
       var markerpos = a.data('markerpos');
+      var markerid = a.data('markerid');
       var modal = $(this);
       modal.find('.modal-title').text(title);
-      self.getStreetView(markerpos, modal);
+      if (markerpos) {
+        self.getStreetView(markerpos, modal);
+      } else if (markerid) {
+        self.getGoogleReviews(markerid, modal);
+      }
+    });
+    $('#mapModal').on('hidden.bs.modal', function () {
+      var modal = $(this);
+      var modalbody = modal.find('.modal-body');
+      modalbody.empty();
+      modalbody.removeAttr('style');
+    });
+  };
+
+  self.getGoogleReviews = function (markerid, modal) {
+    var modalbody = modal.find('.modal-body');
+    var service = new google.maps.places.PlacesService(map);
+    service.getDetails({
+      placeId: markerid
+    }, function(place, status){
+      if (status == google.maps.places.PlacesServiceStatus.OK){
+        var reviews = "<div id='review'>";
+        if (place.reviews) {
+          place.reviews.forEach(function(review, index){
+            reviews += "<strong>" + (index+1) + ". " + review.author_name + "</strong>";
+            reviews += "<br>" + review.text;
+            reviews += "<br><strong>Rating</strong>: " + review.rating;
+            reviews += "<br><br>";
+          });
+          reviews += "</div>";
+        } else {
+          reviews = "No Reviews available!"
+        }
+        modal.find('.modal-body').append(reviews);
+      }
     });
   };
 
   self.getStreetView = function(markerpos, modal) {
+    var modalbody = modal.find('.modal-body');
     var latlng = markerpos.substring(1,markerpos.length - 1).split(",");
     var streetMarker = new google.maps.Marker({
       position: {lat: parseFloat(latlng[0].trim()), lng: parseFloat(latlng[1].trim())}

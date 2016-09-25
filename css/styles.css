@@ -70,6 +70,10 @@ ul.place-list li img {
 .modal-body {
   height: 400px;
 }
+#review {
+  height: 400px;
+  overflow-y: auto;
+}
 #info-wrapper {
   display: flex;
   flex-direction: row;
