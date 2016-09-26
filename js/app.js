@@ -74,6 +74,7 @@ var viewModel = function() {
     } else {
       marker.setAnimation(google.maps.Animation.BOUNCE);
     }
+    $('#mapModal').unbind();
     self.createModalBinding();
     self.getPlaceDetails(marker);
   };
@@ -114,7 +115,7 @@ var viewModel = function() {
         innerHTML += "<br><a href='#' id='google-street-view' data-target='#mapModal' data-toggle='modal'" +
           " data-title='Street View Image' data-markerpos='" + marker.position + "'>Google StreetView</a>";
         innerHTML += "<br><a href='#' id='google-reviews' data-target='#mapModal' data-toggle='modal'" +
-          " data-markerid='" + marker.id +"'>Google Reviews</a>";
+          " data-title='User Reviews' data-markerid='" + marker.id +"'>Google Reviews</a>";
         innerHTML += "<br><a href='#' id='foursquare-reviews'>Foursquare Reviews</a>";
         innerHTML += "<br><a href='#' id='wiki-info'>Wikipedia Info</a>";
         innerHTML += "<br><a href='#' id='instagram-images'>Instagram Images</a></div></div>";
@@ -155,7 +156,7 @@ var viewModel = function() {
     $('#mapModal').on('hidden.bs.modal', function () {
       var modal = $(this);
       var modalbody = modal.find('.modal-body');
-      modalbody.empty();
+      modalbody.children().remove();
       modalbody.removeAttr('style');
     });
   };
@@ -193,7 +194,6 @@ var viewModel = function() {
     var streetViewService = new google.maps.StreetViewService();
     var radius = 50;
     function getPanoImage(data, status){
-      console.log(data, status);
       if (status == google.maps.StreetViewStatus.OK){
         var nearStreetViewLocation = data.location.latLng;
         var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, streetMarker.position);
