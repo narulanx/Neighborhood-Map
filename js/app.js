@@ -1,3 +1,4 @@
+'use strict';
 var map;
 
 var utils = {
@@ -129,7 +130,7 @@ var viewModel = function() {
   };
 
   self.createIconForMarker = function(marker, iconUrl) {
-    icon = {
+    var icon = {
       url: iconUrl,
       size: new google.maps.Size(35,35),
       origin: new google.maps.Point(0,0),
