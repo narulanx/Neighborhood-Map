@@ -70,7 +70,7 @@ ul.place-list li img {
 .modal-body {
   height: 400px;
 }
-#review {
+#review, #wiki {
   height: 400px;
   overflow-y: auto;
 }

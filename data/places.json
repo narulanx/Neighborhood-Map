@@ -37,7 +37,7 @@
 	}, {
 		"category": "Tourist Attraction",
 		"placeId": "ChIJp2E8Hb8sDogR8WK83agX6c4",
-		"title": "Willis Tower Skydeck",
+		"title": "Willis Tower",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
 		"location": {
 			"lat": 41.8788864,
@@ -73,7 +73,7 @@
 	}, {
 		"category": "Restaurant",
 		"placeId": "ChIJg7aSMj3TD4gRlHUmzqlebUI",
-		"title": "Boka",
+		"title": "Boka (restaurant)",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
 		"location": {
 			"lat": 41.9136269,
@@ -82,7 +82,7 @@
 	}, {
 		"category": "Restaurant",
 		"placeId": "ChIJv8ufsnMyDogRqvvOWIijOD0",
-		"title": "Subway",
+		"title": "Subway (restaurant)",
 		"iconUrl": "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
 		"location": {
 			"lat": 41.9317013,
@@ -145,7 +145,7 @@
 	}, {
 		"category": "Subway Station",
 		"placeId": "ChIJq8jvih8tDogRdcmnuhTg588",
-		"title": "Racine",
+		"title": "Racine station (CTA Blue Line)",
 		"iconUrl": "https://pbs.twimg.com/profile_images/1643701305/train-icon.gif",
 		"location": {
 			"lat": 41.8758068,
@@ -154,7 +154,7 @@
 	}, {
 		"category": "Subway Station",
 		"placeId": "ChIJRQlvcyUzDogRpH3Tb3-MFAs",
-		"title": "Cicero",
+		"title": "Cicero station (Metra)",
 		"iconUrl": "https://pbs.twimg.com/profile_images/1643701305/train-icon.gif",
 		"location": {
 			"lat": 41.8716179,
@@ -163,7 +163,7 @@
 	}, {
 		"category": "Subway Station",
 		"placeId": "ChIJexYpUKAtDogRekVhWoaqT94",
-		"title": "Damen (Pink)",
+		"title": "Damen station (CTA Pink Line)",
 		"iconUrl": "https://pbs.twimg.com/profile_images/1643701305/train-icon.gif",
 		"location": {
 			"lat": 41.854517,
@@ -172,7 +172,7 @@
 	}, {
 		"category": "Subway Station",
 		"placeId": "ChIJp9FBf-osDogRHnwwyucoWSM",
-		"title": "Clinton",
+		"title": "Clinton station (CTA Blue Line)",
 		"iconUrl": "https://pbs.twimg.com/profile_images/1643701305/train-icon.gif",
 		"location": {
 			"lat": 41.8857266,

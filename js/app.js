@@ -143,9 +143,11 @@ var viewModel = function() {
         innerHTML += "<br><a href='#' id='google-reviews' data-target='#mapModal' data-toggle='modal'" +
           " data-title='User Reviews' data-markerid='" + marker.id +"'>Google Reviews</a>";
         // Display Foursquare Review
-        innerHTML += "<br><a href='#' id='foursquare-reviews'>Foursquare Reviews</a>";
+        innerHTML += "<br><a href='#' id='foursquare-reviews' data-target='#mapModal' data-toggle='modal'" +
+          " data-title='FourSquare Reviews'>Foursquare Reviews</a>";
         // Display Wikipedia information about the place
-        innerHTML += "<br><a href='#' id='wiki-info'>Wikipedia Info</a>";
+        innerHTML += "<br><a href='#' id='wiki-info' data-target='#mapModal' data-toggle='modal'" +
+          " data-title='Wikipedia' data-placename='" + marker.title + "'>Wikipedia Info</a>";
         // Display Instagram images of the place
         innerHTML += "<br><a href='#' id='instagram-images'>Instagram Images</a></div></div>";
         placeInfoWindow.setContent(innerHTML);
@@ -179,6 +181,7 @@ var viewModel = function() {
       var title = a.data('title');
       var markerpos = a.data('markerpos');
       var markerid = a.data('markerid');
+      var placename = a.data('placename');
       var modal = $(this);
       modal.find('.modal-title').text(title);
       // If marker position is available, call the streetview api to get the street view image
@@ -187,6 +190,8 @@ var viewModel = function() {
         self.getStreetView(markerpos, modal);
       } else if (markerid) {
         self.getGoogleReviews(markerid, modal);
+      } else if (placename) {
+        self.getWikiInfo(placename, modal);
       }
     });
     // When the modal window is closed (hidden), remove all the element that was added on opening the modal,
@@ -196,6 +201,32 @@ var viewModel = function() {
       var modalbody = modal.find('.modal-body');
       modalbody.children().remove();
       modalbody.removeAttr('style');
+    });
+  };
+
+  // Function to retrieve the Wikipedia information
+  self.getWikiInfo = function(placename, modal) {
+    // Wiki opensearch API URL
+    var wikiUrl = "http://en.wikipedia.org/w/api.php?action=opensearch&search=" +
+                      placename + "&format=json&callback=wikiCallback";
+
+    // JSONP AJAX call to allow cross origin requests
+    $.ajax({
+      url: wikiUrl,
+      dataType: "jsonp",
+      success: function(response) {
+        var wiki = "<div id=\"wiki\">"
+        if (response[1].length > 0) {
+          for (var i = 0; i < response[1].length; i++){
+            wiki += "<a target=\"_blank\" href='" + response[3][i] + "'>" + response[1][i] + "</a><br>";
+            wiki += response[2][i] + "<br><br>";
+          }
+        } else {
+          wiki += "No Wikipedia Information available!";
+        }
+        wiki += "</div>";
+        modal.find('.modal-body').append(wiki);
+      }
     });
   };
 
@@ -221,7 +252,7 @@ var viewModel = function() {
           reviews = "No Reviews available!"
         }
         reviews += "</div>";
-        modal.find('.modal-body').append(reviews);
+        modalbody.append(reviews);
       }
     });
   };
