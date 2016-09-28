@@ -207,7 +207,7 @@ var viewModel = function() {
   // Function to retrieve the Wikipedia information
   self.getWikiInfo = function(placename, modal) {
     // Wiki opensearch API URL
-    var wikiUrl = "http://en.wikipedia.org/w/api.php?action=opensearch&search=" +
+    var wikiUrl = "https://en.wikipedia.org/w/api.php?action=opensearch&search=" +
                       placename + "&format=json&callback=wikiCallback";
 
     // JSONP AJAX call to allow cross origin requests
