@@ -26,10 +26,7 @@ h1 {
 }
 
 hr {
-  background: #D0D7D9;
-  height: 1px;
-  margin: 20px 0 20px 0;
-  border: none;
+  margin: 0 0 10px 0;
 }
 #map {
   bottom:0px;
@@ -80,4 +77,9 @@ ul.place-list li img {
 }
 #services {
   padding: 70px 0 0 20px;
+}
+.review-img {
+  width: 500px;
+  height: 200px;
+  padding-bottom: 5px;
 }

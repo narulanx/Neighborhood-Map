@@ -1,5 +1,9 @@
 'use strict';
 var map;
+var FS_CLIENT_ID = "340F1OEHKVG1HKLISDYMXZDZLMOUWYMI251PFUNRHPJ0HB3K";
+var FS_CLIENT_SECRET = "CONDTWSVA1YTPTSJLN5FLMH5VBSWOJPFT5QHY1WOGR0NZBEB";
+var FS_VERSION = "20160928";
+var FS_M = "foursquare";
 
 // Utils variable containing utility methods
 var utils = {
@@ -143,13 +147,12 @@ var viewModel = function() {
         innerHTML += "<br><a href='#' id='google-reviews' data-target='#mapModal' data-toggle='modal'" +
           " data-title='User Reviews' data-markerid='" + marker.id +"'>Google Reviews</a>";
         // Display Foursquare Review
-        innerHTML += "<br><a href='#' id='yelp-reviews' data-target='#mapModal' data-toggle='modal'" +
-          " data-title='yelp Reviews' data-yelp=\"yelp\">Yelp Reviews</a>";
+        innerHTML += "<br><a href='#' id='foursquare-reviews' data-target='#mapModal' data-toggle='modal'" +
+          " data-title='FourSquare Reviews' data-fsposition='" + marker.position + "'" +
+          " data-fstitle='" + marker.title + "'>FourSquare Reviews</a>";
         // Display Wikipedia information about the place
         innerHTML += "<br><a href='#' id='wiki-info' data-target='#mapModal' data-toggle='modal'" +
           " data-title='Wikipedia' data-placename='" + marker.title + "'>Wikipedia Info</a>";
-        // Display Instagram images of the place
-        innerHTML += "<br><a href='#' id='instagram-images'>Instagram Images</a></div></div>";
         placeInfoWindow.setContent(innerHTML);
         // Display the infoWindow
         placeInfoWindow.open(map, marker);
@@ -182,7 +185,8 @@ var viewModel = function() {
       var markerpos = a.data('markerpos');
       var markerid = a.data('markerid');
       var placename = a.data('placename');
-      var yelp = a.data('yelp');
+      var fsposition = a.data('fsposition');
+      var fstitle = a.data('fstitle');
       var modal = $(this);
       modal.find('.modal-title').text(title);
       // If marker position is available, call the streetview api to get the street view image
@@ -193,8 +197,8 @@ var viewModel = function() {
         self.getGoogleReviews(markerid, modal);
       } else if (placename) {
         self.getWikiInfo(placename, modal);
-      } else if (yelp) {
-        self.getYelpInfo();
+      } else if (fsposition) {
+        self.getFourSquareInfo(fsposition, fstitle, modal);
       }
     });
     // When the modal window is closed (hidden), remove all the element that was added on opening the modal,
@@ -207,34 +211,62 @@ var viewModel = function() {
     });
   };
 
-  self.getYelpInfo = function() {
-    var url = "https://api.yelp.com/oauth2/token";
-    var params = "?grant_type=client_credentials&client_id=qTeEYZ-SEr-vuejOluBMbg&client_secret=7KKkPcaQFNLV1GeZIWnf5AIM13H0wXMEwqCDobmIgYnLaFcPXZUfurBVq6HEeJII";
-    /*var params = {
-      grant_type: "client_credentials",
-      client_id: "qTeEYZ-SEr-vuejOluBMbg",
-      client_secret: "7KKkPcaQFNLV1GeZIWnf5AIM13H0wXMEwqCDobmIgYnLaFcPXZUfurBVq6HEeJII"
-    };*/
-    /*$.ajax({
-      url: url,
-      type: "POST",
-      crossDomain: true,
-      data: params,
-      dataType: "json",
-      success: function(data){
-        console.log(data);
-      }
-    });*/
+  // Function to retrieve the reviews of a place on FourSquare
+  self.getFourSquareInfo = function(fsposition, fstitle, modal) {
+    var modalbody = modal.find('.modal-body');
+    // URLs and Params for the FourSquare APIs
+    var baseparam = "?client_id=" + FS_CLIENT_ID + "&client_secret=" + FS_CLIENT_SECRET + "&v=" + FS_VERSION + "&m=" + FS_M;
+    var searchurl = "https://api.foursquare.com/v2/venues/search";
+    var searchparam = baseparam + "&ll=" + fsposition.substring(1,fsposition.length - 1).replace(/\s+/g,'') +"&query="+fstitle;
+    var tipsurl = "https://api.foursquare.com/v2/venues/VENUE_ID/tips";
+
+    // FourSquare search service API AJAX call to get the place ID
     $.ajax({
-      url: url + params,
-      dataType: 'jsonp',
-      success: function(data) {
-        console.log(data);
-      },
-      error: function(xhr,status,error) {
-        console.log(xhr.statusCode,status,error);
-      }
+      url: searchurl + searchparam,
+      type: "GET",
+      dataType: "json"
+    }).done(function(data){
+      var placeId = data.response.venues[0].id;
+      // FourSquare Tips service API AJAX call to get the reviews
+      $.ajax({
+        url: tipsurl.replace('VENUE_ID',placeId) + baseparam + "&sort=recent",
+        type: "GET",
+        dataType: "json"
+      }).done(function(tips){
+        var numTips = tips.response.tips.items.length;
+        var iter = numTips > 10 ? 10 : numTips;
+        // Get all the reviews and store it in a variable
+        var reviews = "<div id='review'>";
+        if (iter == 0) {
+          reviews += "No reviews found on FourSquare for this place.";
+        }
+        for (var i = 0; i < iter; i++){
+          var item = tips.response.tips.items[i];
+          var name = item.user.firstName;
+          if (item.user.lastName) {
+            name += " " + item.user.lastName;
+          }
+          reviews += "<strong>" + name + "</strong><br>";
+          if (item.user.gender && item.user.gender != "none") {
+            reviews += "<i>" + item.user.gender + "</i><br>";
+          }
+          reviews += "<a target='_blank' href='" + item.canonicalUrl + "'>View on browser</a><br>";
+          reviews += "<p>" + item.text + "</p>";
+          if (item.photourl){
+            reviews += "<img src='" + item.photourl + "' class='review-img'>";
+          }
+          reviews += "<hr>";
+        }
+        reviews += "</div>";
+        // Append the reviews on the modal body
+        modalbody.append(reviews);
+      }).fail(function(error){
+        modalbody.append("<div id='review'>No reviews found on FourSquare for this place.</div>");
+      });
+    }).fail(function(data){
+      modalbody.append("<div id='review'>No reviews found on FourSquare for this place.</div>");
     });
+
   };
 
   // Function to retrieve the Wikipedia information
