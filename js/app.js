@@ -314,7 +314,7 @@ var viewModel = function() {
             reviews += "<br><br>";
           });
         } else {
-          reviews = "No Reviews available!"
+          reviews += "No Reviews available!"
         }
         reviews += "</div>";
         modalbody.append(reviews);
