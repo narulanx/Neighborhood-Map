@@ -143,8 +143,8 @@ var viewModel = function() {
         innerHTML += "<br><a href='#' id='google-reviews' data-target='#mapModal' data-toggle='modal'" +
           " data-title='User Reviews' data-markerid='" + marker.id +"'>Google Reviews</a>";
         // Display Foursquare Review
-        innerHTML += "<br><a href='#' id='foursquare-reviews' data-target='#mapModal' data-toggle='modal'" +
-          " data-title='FourSquare Reviews'>Foursquare Reviews</a>";
+        innerHTML += "<br><a href='#' id='yelp-reviews' data-target='#mapModal' data-toggle='modal'" +
+          " data-title='yelp Reviews' data-yelp=\"yelp\">Yelp Reviews</a>";
         // Display Wikipedia information about the place
         innerHTML += "<br><a href='#' id='wiki-info' data-target='#mapModal' data-toggle='modal'" +
           " data-title='Wikipedia' data-placename='" + marker.title + "'>Wikipedia Info</a>";
@@ -182,6 +182,7 @@ var viewModel = function() {
       var markerpos = a.data('markerpos');
       var markerid = a.data('markerid');
       var placename = a.data('placename');
+      var yelp = a.data('yelp');
       var modal = $(this);
       modal.find('.modal-title').text(title);
       // If marker position is available, call the streetview api to get the street view image
@@ -192,6 +193,8 @@ var viewModel = function() {
         self.getGoogleReviews(markerid, modal);
       } else if (placename) {
         self.getWikiInfo(placename, modal);
+      } else if (yelp) {
+        self.getYelpInfo();
       }
     });
     // When the modal window is closed (hidden), remove all the element that was added on opening the modal,
@@ -201,6 +204,36 @@ var viewModel = function() {
       var modalbody = modal.find('.modal-body');
       modalbody.children().remove();
       modalbody.removeAttr('style');
+    });
+  };
+
+  self.getYelpInfo = function() {
+    var url = "https://api.yelp.com/oauth2/token";
+    var params = "?grant_type=client_credentials&client_id=qTeEYZ-SEr-vuejOluBMbg&client_secret=7KKkPcaQFNLV1GeZIWnf5AIM13H0wXMEwqCDobmIgYnLaFcPXZUfurBVq6HEeJII";
+    /*var params = {
+      grant_type: "client_credentials",
+      client_id: "qTeEYZ-SEr-vuejOluBMbg",
+      client_secret: "7KKkPcaQFNLV1GeZIWnf5AIM13H0wXMEwqCDobmIgYnLaFcPXZUfurBVq6HEeJII"
+    };*/
+    /*$.ajax({
+      url: url,
+      type: "POST",
+      crossDomain: true,
+      data: params,
+      dataType: "json",
+      success: function(data){
+        console.log(data);
+      }
+    });*/
+    $.ajax({
+      url: url + params,
+      dataType: 'jsonp',
+      success: function(data) {
+        console.log(data);
+      },
+      error: function(xhr,status,error) {
+        console.log(xhr.statusCode,status,error);
+      }
     });
   };
 
