@@ -16,9 +16,12 @@ body {
 input {
   font-size: 12px;
 }
+header, aside {
+  background-color: #565050;
+  color: #fff;
+}
 
 h1 {
-  color: #525454;
   font-size: 26px;
   text-align: center;
   margin: 0;
@@ -29,8 +32,8 @@ hr {
   margin: 0 0 10px 0;
 }
 #map {
-  bottom:0px;
-  height: 90%;
+  bottom:0;
+  height: 92.6%;
   position: absolute;
   width: 80%;
 }
@@ -48,14 +51,13 @@ ul.place-list {
   list-style: none;
   padding: 0;
   width: 90%;
-  height: 498px;
+  height: 524px;
   overflow-y: scroll;
 }
 ul.place-list li {
   margin: 0;
   padding: 3px 0 5px 0;
   border-bottom: 1px solid #ccc;
-  color: #666;
 }
 ul.place-list li img {
   width: 20px;
