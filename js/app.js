@@ -365,7 +365,7 @@ var initMap = function() {
     center: {lat: 41.8847888, lng: -87.7383704},
     zoom: 13
   });
-  $('.place-list').height($('#map').height() * 0.854);
+  $('.place-list').height($('#map').height() * 0.847);
   $('#list-container').perfectScrollbar();
   ko.applyBindings(new viewModel());
 }
