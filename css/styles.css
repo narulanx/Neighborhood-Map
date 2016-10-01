@@ -1,6 +1,6 @@
 html,
 body {
-  font-family: Arial, sans-serif;
+  font-family: Lato, Arial, sans-serif;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -42,7 +42,8 @@ hr {
   float: right;
 }
 .place-listings #form {
-  padding-left: 20px;
+  background-color: black;
+  padding: 0.5px 0 0.25px 20px;
 }
 #filter-text {
   width: 90%;
@@ -52,7 +53,10 @@ ul.place-list {
   padding: 0;
   width: 90%;
   height: 524px;
-  overflow-y: scroll;
+}
+#list-container {
+  position: relative;
+  overflow: auto;
 }
 ul.place-list li {
   margin: 0;
