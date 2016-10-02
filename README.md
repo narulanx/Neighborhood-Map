@@ -6,7 +6,7 @@ You can find this on [GitHub pages](https://narulanx.github.io/Neighborhood-Map/
 ### Features
 - The filter search box filters the places from the list and subsequently on the marker without refreshing the page.
 - On click of the place name on the list or on marker, will bounce the marker indefinitely until you click again.
-- On click of the place name on the list or on marker, will pop open an info window on the map displaying some information of the place and the services this is offered.
+- On click of the place name on the list or on marker, will pop open an info window on the map displaying some information of the place and the services that is offered.
 - The information displayed on the info window are retrieved using PlacesService Google Maps API. These information include name, address, phone number, opening hours and a photo of the place.
 - The other services thar are included on the info window are Google StreetView, Google Reviews, FourSquare Reviews and Wikipedia Info. The information from these services are displayed on a modal window that gets opened in the middle of the page.
 - Google StreetView uses the StreetViewService, StreetViewPanorama and ComputeHeading APIs of the Google Maps and displays the image that is returned.
