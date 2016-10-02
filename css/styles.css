@@ -47,6 +47,7 @@ hr {
 }
 #filter-text {
   width: 90%;
+  color: black;
 }
 ul.place-list {
   list-style: none;
