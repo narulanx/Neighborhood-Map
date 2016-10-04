@@ -20,13 +20,23 @@ var place = function(data) {
   this.marker = data.marker;
   this.title = ko.observable(data.title);
   this.iconUrl = ko.observable(data.iconUrl);
-}
+};
+
+// Create GoogleReview object with author name, review text and rating
+var gReview = function(data) {
+  this.author_name = ko.observable(data.author_name);
+  this.reviewText = ko.observable(data.reviewText);
+  this.rating = ko.observable(data.rating);
+};
 
 // ViewModel object with relevant variables and functions
 var viewModel = function() {
   var self = this;
   self.places = ko.observableArray([]);
   self.filter = ko.observable("");
+  self.modTitle = ko.observable("");
+  self.modBody = ko.observable("");
+  self.gReviews = ko.observableArray([]);
 
   self.infoWindow = new google.maps.InfoWindow();
 
@@ -181,14 +191,13 @@ var viewModel = function() {
     // When the modal window is shown, populate the title and call the specific service based on the link clicked
     $('#mapModal').on('show.bs.modal', function (event) {
       var a = $(event.relatedTarget);
-      var title = a.data('title');
+      self.modTitle(a.data('title'));
       var markerpos = a.data('markerpos');
       var markerid = a.data('markerid');
       var placename = a.data('placename');
       var fsposition = a.data('fsposition');
       var fstitle = a.data('fstitle');
       var modal = $(this);
-      modal.find('.modal-title').text(title);
       // If marker position is available, call the streetview api to get the street view image
       // If marker id is available, call the places service to get the reviews
       if (markerpos) {
@@ -205,9 +214,9 @@ var viewModel = function() {
     // so that the data is not cached and fresh data is fetched again.
     $('#mapModal').on('hidden.bs.modal', function () {
       var modal = $(this);
-      var modalbody = modal.find('.modal-body');
-      modalbody.children().remove();
-      modalbody.removeAttr('style');
+      var strtView = modal.find('#googleStreetView');
+      strtView.children().remove();
+      self.gReviews([]);
     });
   };
 
@@ -297,27 +306,21 @@ var viewModel = function() {
 
   // Function to retrieve the Google reviews for the place displayed
   self.getGoogleReviews = function (markerid, modal) {
-    var modalbody = modal.find('.modal-body');
     // Call the getDetails API of the PlacesService to fetch the user reviews
     var service = new google.maps.places.PlacesService(map);
     service.getDetails({
       placeId: markerid
     }, function(place, status){
       if (status == google.maps.places.PlacesServiceStatus.OK){
-        var reviews = "<div id='review'>";
-        // Display each and every review provided by the service, if available
+        // Push each and every review provided by the service to the knockout observable
         if (place.reviews) {
           place.reviews.forEach(function(review, index){
-            reviews += "<strong>" + (index+1) + ". " + review.author_name + "</strong>";
-            reviews += "<br>" + review.text;
-            reviews += "<br><strong>Rating</strong>: " + review.rating;
-            reviews += "<br><br>";
+            self.gReviews.push(new gReview({author_name: review.author_name, reviewText: review.text, rating: review.rating}));
           });
         } else {
-          reviews += "No Reviews available!"
+          // Display message if no reviews available
+          self.gReviews.push(new gReview({author_name: "No Reviews available", reviewText: "", rating: ""}));
         }
-        reviews += "</div>";
-        modalbody.append(reviews);
       }
     });
   };
@@ -347,7 +350,7 @@ var viewModel = function() {
           }
         };
         // PanoramaOptions object is populated in the placeholder which displays the street view image.
-        var panorama = new google.maps.StreetViewPanorama(modal.find('.modal-body')[0], panoramaOptions);
+        var panorama = new google.maps.StreetViewPanorama(modal.find('#googleStreetView')[0], panoramaOptions);
       } else {
         // Display a message of the status of the service call is not OK
         modal.find('.modal-body').text("No Street View Found");

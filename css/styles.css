@@ -73,7 +73,7 @@ ul.place-list li img {
 .modal-body {
   height: 400px;
 }
-#review, #wiki {
+#googleReviews, #wiki {
   height: 400px;
   overflow-y: auto;
 }
@@ -88,4 +88,7 @@ ul.place-list li img {
   width: 500px;
   height: 200px;
   padding-bottom: 5px;
+}
+#googleStreetView {
+  position: static !important;
 }
