@@ -29,6 +29,13 @@ var gReview = function(data) {
   this.rating = ko.observable(data.rating);
 };
 
+// Create Wikipedia Info object with URL, link text and info text
+var wikiInfo = function(data) {
+  this.wikiLink = ko.observable(data.wikiLink);
+  this.wikiLinkText = ko.observable(data.wikiLinkText);
+  this.wikiInfoText = ko.observable(data.wikiInfoText);
+}
+
 // ViewModel object with relevant variables and functions
 var viewModel = function() {
   var self = this;
@@ -37,6 +44,7 @@ var viewModel = function() {
   self.modTitle = ko.observable("");
   self.modBody = ko.observable("");
   self.gReviews = ko.observableArray([]);
+  self.wikiInfos = ko.observableArray([]);
 
   self.infoWindow = new google.maps.InfoWindow();
 
@@ -216,12 +224,22 @@ var viewModel = function() {
       var modal = $(this);
       var strtView = modal.find('#googleStreetView');
       strtView.children().remove();
+      if (!strtView.hasClass("hide"))
+        strtView.addClass("hide");
       self.gReviews([]);
+      if (!$('#googleReviews').hasClass("hide"))
+        $('#googleReviews').addClass("hide");
+      self.wikiInfos([]);
+      if (!$('#wikipediaInfo').hasClass("hide"))
+        $('#wikipediaInfo').addClass("hide");
+      if (!$('#fourSquareReviews').hasClass("hide"))
+        $('#fourSquareReviews').addClass("hide");
     });
   };
 
   // Function to retrieve the reviews of a place on FourSquare
   self.getFourSquareInfo = function(fsposition, fstitle, modal) {
+    $('#fourSquareReviews').removeClass("hide");
     var modalbody = modal.find('.modal-body');
     // URLs and Params for the FourSquare APIs
     var baseparam = "?client_id=" + FS_CLIENT_ID + "&client_secret=" + FS_CLIENT_SECRET + "&v=" + FS_VERSION + "&m=" + FS_M;
@@ -280,6 +298,7 @@ var viewModel = function() {
 
   // Function to retrieve the Wikipedia information
   self.getWikiInfo = function(placename, modal) {
+    $('#wikipediaInfo').removeClass("hide");
     // Wiki opensearch API URL
     var wikiUrl = "https://en.wikipedia.org/w/api.php?action=opensearch&search=" +
                       placename + "&format=json&callback=wikiCallback";
@@ -289,23 +308,30 @@ var viewModel = function() {
       url: wikiUrl,
       dataType: "jsonp",
       success: function(response) {
-        var wiki = "<div id=\"wiki\">"
+        // If ajax call is success, push each of the wiki information to observable array
         if (response[1].length > 0) {
           for (var i = 0; i < response[1].length; i++){
-            wiki += "<a target=\"_blank\" href='" + response[3][i] + "'>" + response[1][i] + "</a><br>";
-            wiki += response[2][i] + "<br><br>";
+            self.wikiInfos.push(new wikiInfo({
+              wikiLink: response[3][i],
+              wikiLinkText: response[1][i],
+              wikiInfoText: response[2][i]
+            }));
           }
         } else {
-          wiki += "No Wikipedia Information available!";
+          // Push a proper message to the array if the wiki info is not found
+          self.wikiInfos.push(new wikiInfo({
+            wikiLink: "",
+            wikiLinkText: "",
+            wikiInfoText: "No Wikipedia Information available!"
+          }));
         }
-        wiki += "</div>";
-        modal.find('.modal-body').append(wiki);
       }
     });
   };
 
   // Function to retrieve the Google reviews for the place displayed
   self.getGoogleReviews = function (markerid, modal) {
+    $('#googleReviews').removeClass("hide");
     // Call the getDetails API of the PlacesService to fetch the user reviews
     var service = new google.maps.places.PlacesService(map);
     service.getDetails({
@@ -327,7 +353,7 @@ var viewModel = function() {
 
   // Function to get the street view image of the location
   self.getStreetView = function(markerpos, modal) {
-    var modalbody = modal.find('.modal-body');
+    $('#googleStreetView').removeClass("hide");
     var latlng = markerpos.substring(1,markerpos.length - 1).split(",");
     var streetMarker = new google.maps.Marker({
       position: {lat: parseFloat(latlng[0].trim()), lng: parseFloat(latlng[1].trim())}
@@ -351,9 +377,6 @@ var viewModel = function() {
         };
         // PanoramaOptions object is populated in the placeholder which displays the street view image.
         var panorama = new google.maps.StreetViewPanorama(modal.find('#googleStreetView')[0], panoramaOptions);
-      } else {
-        // Display a message of the status of the service call is not OK
-        modal.find('.modal-body').text("No Street View Found");
       }
     }
     // Make a call to the getPanoramaByLocation API of the StreetViewService using the parameters - position and radius

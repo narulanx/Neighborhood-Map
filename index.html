@@ -41,8 +41,8 @@
                 <h4 class="modal-title" id="myModalLabel" data-bind="text: modTitle"></h4>
               </div>
               <div class="modal-body">
-                <div id="googleStreetView"></div>
-                <div id="googleReviews" data-bind="foreach: gReviews">
+                <div id="googleStreetView" class="hide">No Street View Found.</div>
+                <div id="googleReviews" class="hide" data-bind="foreach: gReviews">
                   <strong data-bind="text: author_name"></strong>
                   <br><span data-bind="text: reviewText"></span>
                   <div data-bind="if: rating">
@@ -50,9 +50,13 @@
                   </div>
                   <br>
                 </div>
-                <div data-bind="ifnot: gReviews">No Reviews available</div>
-                <div id="fourSquareReviews"></div>
-                <div id="wikipediaInfo"></div>
+                <div id="fourSquareReviews" class="hide"></div>
+                <div id="wikipediaInfo" class="hide" data-bind="foreach: wikiInfos">
+                  <div data-bind="if: wikiLink">
+                    <a target="_blank" data-bind="attr: {href: wikiLink}"><span data-bind="text: wikiLinkText"></span></a><br>
+                  </div>
+                  <span data-bind="text: wikiInfoText"></span><br><br>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
