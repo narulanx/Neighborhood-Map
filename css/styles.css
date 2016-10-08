@@ -73,7 +73,7 @@ ul.place-list li img {
 .modal-body {
   height: 400px;
 }
-#googleReviews, #wikipediaInfo {
+#googleReviews, #wikipediaInfo, #fourSquareReviews {
   height: 400px;
   overflow-y: auto;
 }

@@ -36,6 +36,18 @@ var wikiInfo = function(data) {
   this.wikiInfoText = ko.observable(data.wikiInfoText);
 }
 
+// Create FourSquare object with reviewer's name, gender, photo, review URL and review text
+var fsReview = function(data) {
+  //this.name = ko.observable(data.name);
+  this.gender = ko.observable(data.gender);
+  this.canonicalUrl = ko.observable(data.canonicalUrl);
+  this.text = ko.observable(data.text);
+  this.photoUrl = ko.observable(data.photoUrl);
+  this.name = ko.computed(function() {
+    return data.firstName + " " + data.lastName;
+  });
+}
+
 // ViewModel object with relevant variables and functions
 var viewModel = function() {
   var self = this;
@@ -45,6 +57,7 @@ var viewModel = function() {
   self.modBody = ko.observable("");
   self.gReviews = ko.observableArray([]);
   self.wikiInfos = ko.observableArray([]);
+  self.fsReviews = ko.observableArray([]);
 
   self.infoWindow = new google.maps.InfoWindow();
 
@@ -232,6 +245,7 @@ var viewModel = function() {
       self.wikiInfos([]);
       if (!$('#wikipediaInfo').hasClass("hide"))
         $('#wikipediaInfo').addClass("hide");
+      self.fsReviews([]);
       if (!$('#fourSquareReviews').hasClass("hide"))
         $('#fourSquareReviews').addClass("hide");
     });
@@ -240,12 +254,20 @@ var viewModel = function() {
   // Function to retrieve the reviews of a place on FourSquare
   self.getFourSquareInfo = function(fsposition, fstitle, modal) {
     $('#fourSquareReviews').removeClass("hide");
-    var modalbody = modal.find('.modal-body');
     // URLs and Params for the FourSquare APIs
     var baseparam = "?client_id=" + FS_CLIENT_ID + "&client_secret=" + FS_CLIENT_SECRET + "&v=" + FS_VERSION + "&m=" + FS_M;
     var searchurl = "https://api.foursquare.com/v2/venues/search";
     var searchparam = baseparam + "&ll=" + fsposition.substring(1,fsposition.length - 1).replace(/\s+/g,'') +"&query="+fstitle;
     var tipsurl = "https://api.foursquare.com/v2/venues/VENUE_ID/tips";
+    // This is the error object that needs to be used when reviews are not found in four square
+    var errorObj = {
+      firstName: "",
+      lastName: "",
+      gender: "",
+      canonicalUrl: "",
+      text: "No reviews found on FourSquare for this place.",
+      photoUrl: ""
+    }
 
     // FourSquare search service API AJAX call to get the place ID
     $.ajax({
@@ -263,37 +285,26 @@ var viewModel = function() {
         var numTips = tips.response.tips.items.length;
         var iter = numTips > 10 ? 10 : numTips;
         // Get all the reviews and store it in a variable
-        var reviews = "<div id='review'>";
         if (iter == 0) {
-          reviews += "No reviews found on FourSquare for this place.";
+          self.fsReviews.push(new fsReview(errorObj));
         }
         for (var i = 0; i < iter; i++){
           var item = tips.response.tips.items[i];
-          var name = item.user.firstName;
-          if (item.user.lastName) {
-            name += " " + item.user.lastName;
-          }
-          reviews += "<strong>" + name + "</strong><br>";
-          if (item.user.gender && item.user.gender != "none") {
-            reviews += "<i>" + item.user.gender + "</i><br>";
-          }
-          reviews += "<a target='_blank' href='" + item.canonicalUrl + "'>View on browser</a><br>";
-          reviews += "<p>" + item.text + "</p>";
-          if (item.photourl){
-            reviews += "<img src='" + item.photourl + "' class='review-img'>";
-          }
-          reviews += "<hr>";
+          self.fsReviews.push(new fsReview({
+            firstName: item.user.firstName,
+            lastName: item.user.lastName,
+            gender: item.user.gender,
+            canonicalUrl: item.canonicalUrl,
+            text: item.text,
+            photoUrl: item.photourl
+          }));
         }
-        reviews += "</div>";
-        // Append the reviews on the modal body
-        modalbody.append(reviews);
       }).fail(function(error){
-        modalbody.append("<div id='review'>No reviews found on FourSquare for this place.</div>");
+        self.fsReviews.push(new fsReview(errorObj));
       });
     }).fail(function(data){
-      modalbody.append("<div id='review'>No reviews found on FourSquare for this place.</div>");
+      self.fsReviews.push(new fsReview(errorObj));
     });
-
   };
 
   // Function to retrieve the Wikipedia information

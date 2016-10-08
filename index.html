@@ -50,7 +50,20 @@
                   </div>
                   <br>
                 </div>
-                <div id="fourSquareReviews" class="hide"></div>
+                <div id="fourSquareReviews" class="hide" data-bind="foreach: fsReviews">
+                  <strong data-bind="text: name"></strong>
+                  <div data-bind="if: gender">
+                    <i data-bind="text: gender"></i>
+                  </div>
+                  <div data-bind="if: canonicalUrl">
+                    <a target="_blank" data-bind="attr: {href: canonicalUrl}">View on browser</a>
+                  </div>
+                  <p data-bind="text: text"></p>
+                  <div data-bind="if: photoUrl">
+                    <br><img data-bind="attr: {src: photoUrl}" class='review-img'>
+                  </div>
+                  <hr>
+                </div>
                 <div id="wikipediaInfo" class="hide" data-bind="foreach: wikiInfos">
                   <div data-bind="if: wikiLink">
                     <a target="_blank" data-bind="attr: {href: wikiLink}"><span data-bind="text: wikiLinkText"></span></a><br>
