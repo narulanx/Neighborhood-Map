@@ -90,6 +90,8 @@ var viewModel = function() {
       // Push each place object to an array
       self.places.push(new place({marker: marker,title: title,iconUrl: iconUrl}));
     }
+  }).fail(function() {
+    console.log("Error encountered while retrieving data.");
   });
   map.fitBounds(bounds);
 
@@ -191,6 +193,8 @@ var viewModel = function() {
         placeInfoWindow.addListener("closeclick", function(){
           placeInfoWindow.marker = null;
         });
+      } else {
+        console.log("Error encountered while retrieving place details.");
       }
     });
   };
@@ -301,9 +305,11 @@ var viewModel = function() {
         }
       }).fail(function(error){
         self.fsReviews.push(new fsReview(errorObj));
+        console.log("Error encountered with FourSquare Tips service API.");
       });
     }).fail(function(data){
       self.fsReviews.push(new fsReview(errorObj));
+      console.log("Error encountered with FourSquare search service API.");
     });
   };
 
@@ -317,26 +323,24 @@ var viewModel = function() {
     // JSONP AJAX call to allow cross origin requests
     $.ajax({
       url: wikiUrl,
-      dataType: "jsonp",
-      success: function(response) {
-        // If ajax call is success, push each of the wiki information to observable array
-        if (response[1].length > 0) {
-          for (var i = 0; i < response[1].length; i++){
-            self.wikiInfos.push(new wikiInfo({
-              wikiLink: response[3][i],
-              wikiLinkText: response[1][i],
-              wikiInfoText: response[2][i]
-            }));
-          }
-        } else {
-          // Push a proper message to the array if the wiki info is not found
+      dataType: "jsonp"
+    }).done(function(response) {
+      // If ajax call is success, push each of the wiki information to observable array
+      if (response[1].length > 0) {
+        for (var i = 0; i < response[1].length; i++){
           self.wikiInfos.push(new wikiInfo({
-            wikiLink: "",
-            wikiLinkText: "",
-            wikiInfoText: "No Wikipedia Information available!"
+            wikiLink: response[3][i],
+            wikiLinkText: response[1][i],
+            wikiInfoText: response[2][i]
           }));
         }
+      } else {
+        // Push a proper message to the array if the wiki info is not found
+        self.wikiInfos.push(new wikiInfo({wikiLink:"",wikiLinkText:"",wikiInfoText:"No Wikipedia Information available!"}));
       }
+    }).fail(function() {
+      self.wikiInfos.push(new wikiInfo({wikiLink:"",wikiLinkText:"",wikiInfoText:"Wikipedia service not available!"}));
+      console.log("Wikipedia service not available!");
     });
   };
 
@@ -358,6 +362,8 @@ var viewModel = function() {
           // Display message if no reviews available
           self.gReviews.push(new gReview({author_name: "No Reviews available", reviewText: "", rating: ""}));
         }
+      } else {
+        console.log("Error encountered while retrieving Google Reviews.");
       }
     });
   };
@@ -388,6 +394,8 @@ var viewModel = function() {
         };
         // PanoramaOptions object is populated in the placeholder which displays the street view image.
         var panorama = new google.maps.StreetViewPanorama(modal.find('#googleStreetView')[0], panoramaOptions);
+      } else {
+        console.log("Error encountered with the getPanoImage service call.")
       }
     }
     // Make a call to the getPanoramaByLocation API of the StreetViewService using the parameters - position and radius
