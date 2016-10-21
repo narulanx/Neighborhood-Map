@@ -1,14 +1,14 @@
 'use strict';
 var map;
-var FS_CLIENT_ID = "340F1OEHKVG1HKLISDYMXZDZLMOUWYMI251PFUNRHPJ0HB3K";
-var FS_CLIENT_SECRET = "CONDTWSVA1YTPTSJLN5FLMH5VBSWOJPFT5QHY1WOGR0NZBEB";
-var FS_VERSION = "20160928";
-var FS_M = "foursquare";
+var FS_CLIENT_ID = '340F1OEHKVG1HKLISDYMXZDZLMOUWYMI251PFUNRHPJ0HB3K';
+var FS_CLIENT_SECRET = 'CONDTWSVA1YTPTSJLN5FLMH5VBSWOJPFT5QHY1WOGR0NZBEB';
+var FS_VERSION = '20160928';
+var FS_M = 'foursquare';
 
 // Utils variable containing utility methods
 var utils = {
   stringContains: function (string, pattern) {
-    string = string || "";
+    string = string || '';
     if (pattern.length > string.length)
       return false;
     return string.indexOf(pattern) !== -1;
@@ -44,7 +44,7 @@ var fsReview = function(data) {
   this.text = ko.observable(data.text);
   this.photoUrl = ko.observable(data.photoUrl);
   this.name = ko.computed(function() {
-    return data.firstName + " " + data.lastName;
+    return data.firstName + ' ' + data.lastName;
   });
 }
 
@@ -52,9 +52,9 @@ var fsReview = function(data) {
 var viewModel = function() {
   var self = this;
   self.places = ko.observableArray([]);
-  self.filter = ko.observable("");
-  self.modTitle = ko.observable("");
-  self.modBody = ko.observable("");
+  self.filter = ko.observable('');
+  self.modTitle = ko.observable('');
+  self.modBody = ko.observable('');
   self.gReviews = ko.observableArray([]);
   self.wikiInfos = ko.observableArray([]);
   self.fsReviews = ko.observableArray([]);
@@ -63,7 +63,7 @@ var viewModel = function() {
 
   var bounds = new google.maps.LatLngBounds();
   // AJAX call to retrieve the json data to create map marker and other details
-  $.getJSON("data/places.json").done(function(data) {
+  $.getJSON('data/places.json').done(function(data) {
     for (var i = 0; i < data.length; i++){
       var position = data[i].location;
       var title = data[i].title;
@@ -91,7 +91,7 @@ var viewModel = function() {
       self.places.push(new place({marker: marker,title: title,iconUrl: iconUrl}));
     }
   }).fail(function() {
-    alert("Error encountered while retrieving data.");
+    alert('Error encountered while retrieving data.');
   });
   map.fitBounds(bounds);
 
@@ -146,28 +146,28 @@ var viewModel = function() {
     }, function(place, status){
       if (status == google.maps.places.PlacesServiceStatus.OK){
         placeInfoWindow.marker = marker;
-        var innerHTML = "<div id='info-wrapper'><div>";
+        var innerHTML = '<div id="info-wrapper"><div>';
         // Display place name if present
         if (place.name) {
-          innerHTML += "<strong>" + place.name + "</strong>";
+          innerHTML += '<strong>' + place.name + '</strong>';
         }
         // Display formatted address if present
         if (place.formatted_address){
-          innerHTML += "<br>" + place.formatted_address;
+          innerHTML += '<br>' + place.formatted_address;
         }
         // Display formatted phone number if present
         if (place.formatted_phone_number) {
-          innerHTML += "<br>" + place.formatted_phone_number;
+          innerHTML += '<br>' + place.formatted_phone_number;
         }
         // Display opening hours if present
         if (place.opening_hours){
-          innerHTML += "<br><br><Strong>Hours: </strong><br>" +
-            place.opening_hours.weekday_text[0] + "<br>" +
-            place.opening_hours.weekday_text[1] + "<br>" +
-            place.opening_hours.weekday_text[2] + "<br>" +
-            place.opening_hours.weekday_text[3] + "<br>" +
-            place.opening_hours.weekday_text[4] + "<br>" +
-            place.opening_hours.weekday_text[5] + "<br>" +
+          innerHTML += '<br><br><Strong>Hours: </strong><br>' +
+            place.opening_hours.weekday_text[0] + '<br>' +
+            place.opening_hours.weekday_text[1] + '<br>' +
+            place.opening_hours.weekday_text[2] + '<br>' +
+            place.opening_hours.weekday_text[3] + '<br>' +
+            place.opening_hours.weekday_text[4] + '<br>' +
+            place.opening_hours.weekday_text[5] + '<br>' +
             place.opening_hours.weekday_text[6];
         }
         // Display first photo if available
@@ -175,29 +175,29 @@ var viewModel = function() {
           innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
             {maxWidth: 100, maxHeight: 200}) + '">';
         }
-        innerHTML += "</div><div id='services'><strong>Services</strong>";
+        innerHTML += '</div><div id="services"><strong>Services</strong>';
         // Google Street View display
-        innerHTML += "<br><a href='#' id='google-street-view' data-target='#mapModal' data-toggle='modal'" +
-          " data-title='Street View Image' data-markerpos='" + marker.position + "'>Google StreetView</a>";
+        innerHTML += '<br><a href="#" id="google-street-view" data-target="#mapModal" data-toggle="modal"' +
+          ' data-title="Street View Image" data-markerpos="' + marker.position + '">Google StreetView</a>';
         // Google Reviews display
-        innerHTML += "<br><a href='#' id='google-reviews' data-target='#mapModal' data-toggle='modal'" +
-          " data-title='User Reviews' data-markerid='" + marker.id +"'>Google Reviews</a>";
+        innerHTML += '<br><a href="#" id="google-reviews" data-target="#mapModal" data-toggle="modal"' +
+          ' data-title="User Reviews" data-markerid="' + marker.id +'">Google Reviews</a>';
         // Display Foursquare Review
-        innerHTML += "<br><a href='#' id='foursquare-reviews' data-target='#mapModal' data-toggle='modal'" +
-          " data-title='FourSquare Reviews' data-fsposition='" + marker.position + "'" +
-          " data-fstitle='" + marker.title + "'>FourSquare Reviews</a>";
+        innerHTML += '<br><a href="#" id="foursquare-reviews" data-target="#mapModal" data-toggle="modal"' +
+          ' data-title="FourSquare Reviews" data-fsposition="' + marker.position + '"' +
+          ' data-fstitle="' + marker.title + '">FourSquare Reviews</a>';
         // Display Wikipedia information about the place
-        innerHTML += "<br><a href='#' id='wiki-info' data-target='#mapModal' data-toggle='modal'" +
-          " data-title='Wikipedia' data-placename='" + marker.title + "'>Wikipedia Info</a>";
+        innerHTML += '<br><a href="#" id="wiki-info" data-target="#mapModal" data-toggle="modal"' +
+          ' data-title="Wikipedia" data-placename="' + marker.title + '">Wikipedia Info</a>';
         placeInfoWindow.setContent(innerHTML);
         // Display the infoWindow
         placeInfoWindow.open(map, marker);
         // Disassociate the infoWidnow with the marker on closing the infoWindow
-        placeInfoWindow.addListener("closeclick", function(){
+        placeInfoWindow.addListener('closeclick', function(){
           placeInfoWindow.marker = null;
         });
       } else {
-        alert("Error encountered while retrieving place details.");
+        alert('Error encountered while retrieving place details.');
       }
     });
   };
@@ -244,50 +244,52 @@ var viewModel = function() {
       var modal = $(this);
       var strtView = modal.find('#googleStreetView');
       strtView.children().remove();
-      if (!strtView.hasClass("hide"))
-        strtView.addClass("hide");
+      if (!strtView.hasClass('hide'))
+        strtView.addClass('hide');
       self.gReviews([]);
-      if (!$('#googleReviews').hasClass("hide"))
-        $('#googleReviews').addClass("hide");
+      if (!$('#googleReviews').hasClass('hide'))
+        $('#googleReviews').addClass('hide');
       self.wikiInfos([]);
-      if (!$('#wikipediaInfo').hasClass("hide"))
-        $('#wikipediaInfo').addClass("hide");
+      if (!$('#wikipediaInfo').hasClass('hide'))
+        $('#wikipediaInfo').addClass('hide');
       self.fsReviews([]);
-      if (!$('#fourSquareReviews').hasClass("hide"))
-        $('#fourSquareReviews').addClass("hide");
+      if (!$('#fourSquareReviews').hasClass('hide'))
+        $('#fourSquareReviews').addClass('hide');
     });
   };
 
   // Function to retrieve the reviews of a place on FourSquare
   self.getFourSquareInfo = function(fsposition, fstitle, modal) {
-    $('#fourSquareReviews').removeClass("hide");
+    $('#fourSquareReviews').removeClass('hide');
     // URLs and Params for the FourSquare APIs
-    var baseparam = "?client_id=" + FS_CLIENT_ID + "&client_secret=" + FS_CLIENT_SECRET + "&v=" + FS_VERSION + "&m=" + FS_M;
-    var searchurl = "https://api.foursquare.com/v2/venues/search";
-    var searchparam = baseparam + "&ll=" + fsposition.substring(1,fsposition.length - 1).replace(/\s+/g,'') +"&query="+fstitle;
-    var tipsurl = "https://api.foursquare.com/v2/venues/VENUE_ID/tips";
+    var baseparam =
+      '?client_id=' + FS_CLIENT_ID + '&client_secret=' + FS_CLIENT_SECRET + '&v=' + FS_VERSION + '&m=' + FS_M;
+    var searchurl = 'https://api.foursquare.com/v2/venues/search';
+    var searchparam =
+      baseparam + '&ll=' + fsposition.substring(1,fsposition.length - 1).replace(/\s+/g,'') +'&query='+fstitle;
+    var tipsurl = 'https://api.foursquare.com/v2/venues/VENUE_ID/tips';
     // This is the error object that needs to be used when reviews are not found in four square
     var errorObj = {
-      firstName: "",
-      lastName: "",
-      gender: "",
-      canonicalUrl: "",
-      text: "No reviews found on FourSquare for this place.",
-      photoUrl: ""
+      firstName: '',
+      lastName: '',
+      gender: '',
+      canonicalUrl: '',
+      text: 'No reviews found on FourSquare for this place.',
+      photoUrl: ''
     }
 
     // FourSquare search service API AJAX call to get the place ID
     $.ajax({
       url: searchurl + searchparam,
-      type: "GET",
-      dataType: "json"
+      type: 'GET',
+      dataType: 'json'
     }).done(function(data){
       var placeId = data.response.venues[0].id;
       // FourSquare Tips service API AJAX call to get the reviews
       $.ajax({
-        url: tipsurl.replace('VENUE_ID',placeId) + baseparam + "&sort=recent",
-        type: "GET",
-        dataType: "json"
+        url: tipsurl.replace('VENUE_ID',placeId) + baseparam + '&sort=recent',
+        type: 'GET',
+        dataType: 'json'
       }).done(function(tips){
         var numTips = tips.response.tips.items.length;
         var iter = numTips > 10 ? 10 : numTips;
@@ -308,25 +310,25 @@ var viewModel = function() {
         }
       }).fail(function(error){
         self.fsReviews.push(new fsReview(errorObj));
-        alert("Error encountered with FourSquare Tips service API.");
+        alert('Error encountered with FourSquare Tips service API.');
       });
     }).fail(function(data){
       self.fsReviews.push(new fsReview(errorObj));
-      alert("Error encountered with FourSquare search service API.");
+      alert('Error encountered with FourSquare search service API.');
     });
   };
 
   // Function to retrieve the Wikipedia information
   self.getWikiInfo = function(placename, modal) {
-    $('#wikipediaInfo').removeClass("hide");
+    $('#wikipediaInfo').removeClass('hide');
     // Wiki opensearch API URL
-    var wikiUrl = "https://en.wikipedia.org/w/api.php?action=opensearch&search=" +
-                      placename + "&format=json&callback=wikiCallback";
+    var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' +
+                      placename + '&format=json&callback=wikiCallback';
 
     // JSONP AJAX call to allow cross origin requests
     $.ajax({
       url: wikiUrl,
-      dataType: "jsonp"
+      dataType: 'jsonp'
     }).done(function(response) {
       // If ajax call is success, push each of the wiki information to observable array
       if (response[1].length > 0) {
@@ -339,17 +341,25 @@ var viewModel = function() {
         }
       } else {
         // Push a proper message to the array if the wiki info is not found
-        self.wikiInfos.push(new wikiInfo({wikiLink:"",wikiLinkText:"",wikiInfoText:"No Wikipedia Information available!"}));
+        self.wikiInfos.push(new wikiInfo({
+          wikiLink:'',
+          wikiLinkText:'',
+          wikiInfoText:'No Wikipedia Information available!'
+        }));
       }
     }).fail(function() {
-      self.wikiInfos.push(new wikiInfo({wikiLink:"",wikiLinkText:"",wikiInfoText:"Wikipedia service not available!"}));
-      alert("Wikipedia service not available!");
+      self.wikiInfos.push(new wikiInfo({
+        wikiLink:'',
+        wikiLinkText:'',
+        wikiInfoText:'Wikipedia service not available!'
+      }));
+      alert('Wikipedia service not available!');
     });
   };
 
   // Function to retrieve the Google reviews for the place displayed
   self.getGoogleReviews = function (markerid, modal) {
-    $('#googleReviews').removeClass("hide");
+    $('#googleReviews').removeClass('hide');
     // Call the getDetails API of the PlacesService to fetch the user reviews
     var service = new google.maps.places.PlacesService(map);
     service.getDetails({
@@ -363,18 +373,18 @@ var viewModel = function() {
           });
         } else {
           // Display message if no reviews available
-          self.gReviews.push(new gReview({author_name: "No Reviews available", reviewText: "", rating: ""}));
+          self.gReviews.push(new gReview({author_name: 'No Reviews available', reviewText: '', rating: ''}));
         }
       } else {
-        alert("Error encountered while retrieving Google Reviews.");
+        alert('Error encountered while retrieving Google Reviews.');
       }
     });
   };
 
   // Function to get the street view image of the location
   self.getStreetView = function(markerpos, modal) {
-    $('#googleStreetView').removeClass("hide");
-    var latlng = markerpos.substring(1,markerpos.length - 1).split(",");
+    $('#googleStreetView').removeClass('hide');
+    var latlng = markerpos.substring(1,markerpos.length - 1).split(',');
     var streetMarker = new google.maps.Marker({
       position: {lat: parseFloat(latlng[0].trim()), lng: parseFloat(latlng[1].trim())}
     });
@@ -398,7 +408,7 @@ var viewModel = function() {
         // PanoramaOptions object is populated in the placeholder which displays the street view image.
         var panorama = new google.maps.StreetViewPanorama(modal.find('#googleStreetView')[0], panoramaOptions);
       } else {
-        alert("Error encountered with the getPanoImage service call.")
+        alert('Error encountered with the getPanoImage service call.')
       }
     }
     // Make a call to the getPanoramaByLocation API of the StreetViewService using the parameters - position and radius

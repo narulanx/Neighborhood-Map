@@ -70,7 +70,7 @@ ul.place-list li img {
 .place-name {
   cursor: pointer;
 }
-#googleReviews, #wikipediaInfo, #fourSquareReviews {
+#googleStreetView, #googleReviews, #wikipediaInfo, #fourSquareReviews {
   height: 400px;
   overflow-y: auto;
 }
