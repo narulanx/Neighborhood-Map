@@ -23,7 +23,7 @@
                 <div id='list-container'>
                   <ul data-bind="foreach: filteredPlaces" class="place-list">
                     <li>
-                      <span class="place-name" data-bind="text: title, click: $parent.toggleBounce"></span>
+                      <span class="place-name" data-bind="text: title, click: $parent.bounceAndDispInfoWind"></span>
                       <span><img data-bind="attr: {src: iconUrl}"></span>
                     </li>
                   </ul>

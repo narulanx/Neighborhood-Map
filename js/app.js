@@ -84,7 +84,7 @@ var viewModel = function() {
 
       // Toggle the marker and open infoWindow on click of the marker
       marker.addListener('click', function(){
-        self.toggleBounce({marker: this});
+        self.bounceAndDispInfoWind({marker: this});
       });
 
       // Push each place object to an array
@@ -116,12 +116,15 @@ var viewModel = function() {
   }, self);
 
   // Toggle the marker on click of the marker and the corresponding place in the list
-  self.toggleBounce = function(data) {
+  self.bounceAndDispInfoWind = function(data) {
     var marker = data.marker;
     if (marker.getAnimation() !== null) {
       marker.setAnimation(null);
     } else {
       marker.setAnimation(google.maps.Animation.BOUNCE);
+      setTimeout(function(){
+        marker.setAnimation(null);
+      }, 3540);
     }
     // Unbind the modal before creating another 'on' bind
     $('#mapModal').unbind();

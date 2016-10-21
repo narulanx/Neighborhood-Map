@@ -3,6 +3,11 @@
 This is a Chicago Neighborhood Map displaying some tourist attractions, restaurants, cafes and subway stations, on the list in the right pane as well as with the corresponding markers on the map. It is built with KnockoutJS framework using some Google Map APIs and some external APIs such as Wikipedia and FourSquare.
 You can find this on [GitHub pages](https://narulanx.github.io/Neighborhood-Map/).
 
+### Installation
+- Download the respository from github
+- Host the application locally on localhost. To do that you can follow the instructions [here](https://ngrok.com/)
+- Run index.html and enjoy the cool features of the application
+
 ### Features
 - The filter search box filters the places from the list and subsequently on the marker without refreshing the page.
 - On click of the place name on the list or on marker, will bounce the marker indefinitely until you click again.

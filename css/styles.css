@@ -70,9 +70,6 @@ ul.place-list li img {
 .place-name {
   cursor: pointer;
 }
-.modal-body {
-  height: 400px;
-}
 #googleReviews, #wikipediaInfo, #fourSquareReviews {
   height: 400px;
   overflow-y: auto;
