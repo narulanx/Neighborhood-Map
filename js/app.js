@@ -57,6 +57,10 @@ var ViewModel = function() {
   self.gReviews = ko.observableArray([]);
   self.wikiInfos = ko.observableArray([]);
   self.fsReviews = ko.observableArray([]);
+  self.gsvhide = ko.observable('hide');
+  self.grhide = ko.observable('hide');
+  self.fsrhide = ko.observable('hide');
+  self.wihide = ko.observable('hide');
 
   self.infoWindow = new google.maps.InfoWindow();
 
@@ -245,23 +249,23 @@ var ViewModel = function() {
       var modal = $(this);
       var strtView = modal.find('#googleStreetView');
       strtView.children().remove();
-      if (!strtView.hasClass('hide'))
-        strtView.addClass('hide');
+      if (self.gsvhide() == '')
+        self.gsvhide('hide');
       self.gReviews([]);
-      if (!$('#googleReviews').hasClass('hide'))
-        $('#googleReviews').addClass('hide');
+      if (self.grhide() == '')
+        self.grhide('hide');
       self.wikiInfos([]);
-      if (!$('#wikipediaInfo').hasClass('hide'))
-        $('#wikipediaInfo').addClass('hide');
+      if (self.wihide() == '')
+        self.wihide('hide');
       self.fsReviews([]);
-      if (!$('#fourSquareReviews').hasClass('hide'))
-        $('#fourSquareReviews').addClass('hide');
+      if (self.fsrhide() == '')
+        self.fsrhide('hide');
     });
   };
 
   // Function to retrieve the reviews of a place on FourSquare
   self.getFourSquareInfo = function(fsposition, fstitle, modal) {
-    $('#fourSquareReviews').removeClass('hide');
+    self.fsrhide('');
     // URLs and Params for the FourSquare APIs
     var baseparam =
       '?client_id=' + FS_CLIENT_ID + '&client_secret=' + FS_CLIENT_SECRET + '&v=' + FS_VERSION + '&m=' + FS_M;
@@ -321,7 +325,7 @@ var ViewModel = function() {
 
   // Function to retrieve the Wikipedia information
   self.getWikiInfo = function(placename, modal) {
-    $('#wikipediaInfo').removeClass('hide');
+    self.wihide('');
     // Wiki opensearch API URL
     var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' +
                       placename + '&format=json&callback=wikiCallback';
@@ -360,7 +364,7 @@ var ViewModel = function() {
 
   // Function to retrieve the Google reviews for the place displayed
   self.getGoogleReviews = function (markerid, modal) {
-    $('#googleReviews').removeClass('hide');
+    self.grhide('');
     // Call the getDetails API of the PlacesService to fetch the user reviews
     var service = new google.maps.places.PlacesService(map);
     service.getDetails({
@@ -370,11 +374,19 @@ var ViewModel = function() {
         // Push each and every review provided by the service to the knockout observable
         if (place.reviews) {
           place.reviews.forEach(function(review, index){
-            self.gReviews.push(new gReview({author_name: review.author_name, reviewText: review.text, rating: review.rating}));
+            self.gReviews.push(new gReview({
+              author_name: review.author_name,
+              reviewText: review.text,
+              rating: review.rating
+            }));
           });
         } else {
           // Display message if no reviews available
-          self.gReviews.push(new gReview({author_name: 'No Reviews available', reviewText: '', rating: ''}));
+          self.gReviews.push(new gReview({
+            author_name: 'No Reviews available',
+            reviewText: '',
+            rating: ''
+          }));
         }
       } else {
         alert('Error encountered while retrieving Google Reviews.');
@@ -384,7 +396,7 @@ var ViewModel = function() {
 
   // Function to get the street view image of the location
   self.getStreetView = function(markerpos, modal) {
-    $('#googleStreetView').removeClass('hide');
+    self.gsvhide('');
     var latlng = markerpos.substring(1,markerpos.length - 1).split(',');
     var streetMarker = new google.maps.Marker({
       position: {lat: parseFloat(latlng[0].trim()), lng: parseFloat(latlng[1].trim())}
@@ -412,7 +424,7 @@ var ViewModel = function() {
         alert('Error encountered with the getPanoImage service call.')
       }
     }
-    // Make a call to the getPanoramaByLocation API of the StreetViewService using the parameters - position and radius
+    // Make a call to the getPanoramaByLocation API of the StreetViewService using the params - position and radius
     // The result of the service is passed as an argument to the callback function getPanoImage
     streetViewService.getPanoramaByLocation(streetMarker.position, radius, getPanoImage);
   };
