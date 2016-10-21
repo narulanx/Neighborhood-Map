@@ -38,7 +38,6 @@ var wikiInfo = function(data) {
 
 // Create FourSquare object with reviewer's name, gender, photo, review URL and review text
 var fsReview = function(data) {
-  //this.name = ko.observable(data.name);
   this.gender = ko.observable(data.gender);
   this.canonicalUrl = ko.observable(data.canonicalUrl);
   this.text = ko.observable(data.text);
@@ -49,7 +48,7 @@ var fsReview = function(data) {
 }
 
 // ViewModel object with relevant variables and functions
-var viewModel = function() {
+var ViewModel = function() {
   var self = this;
   self.places = ko.observableArray([]);
   self.filter = ko.observable('');
@@ -79,6 +78,8 @@ var viewModel = function() {
       });
       bounds.extend(marker.position);
 
+      marker.setMap(map);
+
       // Create different icons for all the markers
       self.createIconForMarker(marker, iconUrl);
 
@@ -107,9 +108,9 @@ var viewModel = function() {
         disp = utils.stringContains(place.title().toLowerCase(), filter);
       }
       if (!disp){
-        place.marker.setMap(null);
+        place.marker.setVisible(false);
       } else {
-        place.marker.setMap(map);
+        place.marker.setVisible(true);
       }
       return disp;
     });
@@ -425,5 +426,5 @@ var initMap = function() {
   });
   $('.place-list').height($('#map').height() * 0.847);
   $('#list-container').perfectScrollbar();
-  ko.applyBindings(new viewModel());
+  ko.applyBindings(new ViewModel());
 }
