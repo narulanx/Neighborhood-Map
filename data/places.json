@@ -2,7 +2,7 @@
 		"category": "Tourist Attraction",
 		"placeId": "ChIJ2-_fU0orDogRwlDS7RLqzIE",
 		"title": "Navy Pier",
-		"iconUrl": "http://www.freeiconspng.com/uploads/museum-icon-10.png",
+		"iconUrl": "https://www.freeiconspng.com/uploads/museum-icon-10.png",
 		"location": {
 			"lat": 41.8916201,
 			"lng": -87.60729099999999
@@ -20,7 +20,7 @@
 		"category": "Tourist Attraction",
 		"placeId": "ChIJHd8BYAopDogRBuMXc6oszA8",
 		"title": "Museum of Science and Industry",
-		"iconUrl": "http://www.freeiconspng.com/uploads/museum-icon-10.png",
+		"iconUrl": "https://www.freeiconspng.com/uploads/museum-icon-10.png",
 		"location": {
 			"lat": 41.7906088,
 			"lng": -87.5830586
