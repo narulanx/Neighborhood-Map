@@ -126,16 +126,6 @@ hr {
   width: 75% !important;
 }
 
-/*@media (max-width: 762px){
-  .place-listings {
-    display: none;
-  }
-  #map {
-    width: 100%;
-  }
-}*/
-
-/*nav bar */
 .navbar-default,
 .navbar-brand,
 .navbar-toggle span {
