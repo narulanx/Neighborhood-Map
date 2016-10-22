@@ -438,5 +438,32 @@ var initMap = function() {
   });
   $('.place-list').height($('#map').height() * 0.847);
   $('#list-container').perfectScrollbar();
+
+  // function to check size and add/remove classes based on width
+  var checkSize = function() {
+    if ($(window).width() <= 768) {
+      $('.place-listings').addClass('hide');
+      $('#map').addClass('full');
+      $('#map').removeClass('threeQuart');
+      $('.place-listings').removeClass('quart');
+    } else {
+      $('.place-listings').removeClass('hide');
+      $('#map').removeClass('full');
+    }
+  }
+  checkSize();
+  $(window).resize(checkSize);
+
+  // Click event to toggle side nav bar
+  $('.navbar-toggle').on('click', function() {
+    $('.place-listings').toggleClass('hide');
+    $('.place-listings').toggleClass('quart');
+    $('#map').toggleClass('threeQuart');
+    $('#map').toggleClass('full');
+  });
   ko.applyBindings(new ViewModel());
+}
+
+var mapLoadError = function() {
+  alert("We are facing some technical issue while loading Google Maps API! Please try after sometime!");
 }

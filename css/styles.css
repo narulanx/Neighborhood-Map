@@ -16,7 +16,9 @@ body {
 input {
   font-size: 12px;
 }
-header, aside {
+
+header,
+aside {
   background-color: #565050;
   color: #fff;
 }
@@ -31,64 +33,117 @@ h1 {
 hr {
   margin: 0 0 10px 0;
 }
+
 #map {
   bottom:0;
   height: 92.6%;
   position: absolute;
   width: 80%;
 }
+
 .place-listings {
   width: 20%;
   float: right;
+  margin-top: -22px;
 }
+
 .place-listings #form {
   background-color: black;
   padding: 0.5px 0 0.25px 20px;
 }
+
 #filter-text {
   width: 90%;
   color: black;
 }
-ul.place-list {
+
+.place-list {
   list-style: none;
   padding: 0;
   width: 90%;
 }
+
 #list-container {
   position: relative;
   overflow: auto;
 }
-ul.place-list li {
+
+.place-list li {
   margin: 0;
   padding: 3px 0 5px 0;
   border-bottom: 1px solid #ccc;
 }
-ul.place-list li img {
+
+.place-list li img {
   width: 20px;
   height: 20px;
 }
+
 .place-name {
   cursor: pointer;
 }
-#googleStreetView, #googleReviews, #wikipediaInfo, #fourSquareReviews {
+
+#googleStreetView,
+#googleReviews,
+#wikipediaInfo,
+#fourSquareReviews {
   height: 400px;
   overflow-y: auto;
 }
+
 #info-wrapper {
   display: flex;
   flex-direction: row;
 }
+
 #services {
   padding: 70px 0 0 20px;
 }
+
 .review-img {
   width: 500px;
   height: 200px;
   padding-bottom: 5px;
 }
+
 #googleStreetView {
   position: static !important;
 }
+
 .hide {
   display: none;
+}
+
+.full {
+  width: 100% !important;
+}
+
+.quart {
+  width: 25% !important;
+}
+
+.threeQuart {
+  width: 75% !important;
+}
+
+/*@media (max-width: 762px){
+  .place-listings {
+    display: none;
+  }
+  #map {
+    width: 100%;
+  }
+}*/
+
+/*nav bar */
+.navbar-default,
+.navbar-brand,
+.navbar-toggle span {
+  background: none;
+  color: #fff !important;
+  border: none;
+}
+
+.icon-bar {
+  background-color: #fff !important;
 }
